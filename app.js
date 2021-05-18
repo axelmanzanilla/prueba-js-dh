@@ -1,27 +1,16 @@
-/*
-    FORMATO DE CADA TAREA
-        - titulo: string
-        - status: string (
-           * terminada
-           * pendiente
-         )
-*/
+const fs = require('fs');
+const path = './tareas.json';
 
 exports.leerTareas = function () {
-    /*
-        En esta función debes leer y retornar las tareas registradas.
-    */
+    return JSON.parse(fs.readFileSync(path, 'utf-8'));
 }
 
 exports.agregarTarea = function (tarea) {
-    /*
-        Registra y guarda una nueva tarea.
-    */
+    let listado = JSON.parse(fs.readFileSync(path, 'utf-8'));
+	listado.push({titulo: `${tarea.titulo}`, status: `${tarea.status}`});
+	fs.writeFileSync(path, JSON.stringify(listado), "utf-8");
 }
 
 exports.filtrarTareasPorEstado = function (estado) {
-    /*
-        En esta función debes de leer las tareas y retornar las que tengan el estado que se
-        manda en el parametro.
-    */
+    return exports.leerTareas().filter(t => t.status == estado);
 }
